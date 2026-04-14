@@ -48,7 +48,7 @@ Tracks consecutive search operations (`rg`, `grep`, etc.) in bash calls. Every 2
 
 | Package | Source | What it does |
 |---------|--------|-------------|
-| [napkin](https://github.com/Michaelliv/napkin) | local | Knowledge system for agents (Obsidian vault CLI) |
+| [napkin](https://github.com/Michaelliv/napkin) | git | Knowledge system for agents (Obsidian vault CLI) |
 | [pi-ask-user-question](https://github.com/Michaelliv/pi-ask-user-question) | git | Interactive multi-choice question tool |
 | [pi-charts](https://github.com/Michaelliv/pi-charts) | git | Chart rendering (bar, line, pie, scatter, radar, etc.) |
 | [pi-generative-ui](https://github.com/Michaelliv/pi-generative-ui) | git | Interactive HTML/SVG widgets in native macOS windows |
@@ -71,7 +71,7 @@ cp extensions/pi-docs.ts ~/.pi/agent/extensions/pi-docs.ts
 cp reminders/read-fully.ts ~/.pi/agent/reminders/read-fully.ts
 
 # Install packages
-pi install ../../projects/napkin
+pi install git:github.com/Michaelliv/napkin
 pi install git:github.com/Michaelliv/pi-ask-user-question
 pi install git:github.com/Michaelliv/pi-charts
 pi install git:github.com/Michaelliv/pi-generative-ui
