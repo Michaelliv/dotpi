@@ -93,7 +93,7 @@ Uses the `coding` template (decisions, architecture, guides, changelog) plus a c
 
 | Package | Source | What it does |
 |---------|--------|-------------|
-| [napkin](https://github.com/Michaelliv/napkin) | git | Knowledge system — vault CLI, context injection, distillation |
+| [pi-napkin](https://github.com/Michaelliv/pi-napkin) | git | Napkin integration — vault context, kb_search/kb_read tools, distillation |
 | [pi-ask-user-question](https://github.com/Michaelliv/pi-ask-user-question) | git | Interactive multi-choice question tool |
 | [pi-charts](https://github.com/Michaelliv/pi-charts) | git | Chart rendering (bar, line, pie, scatter, radar, etc.) |
 | [pi-generative-ui](https://github.com/Michaelliv/pi-generative-ui) | git | Interactive HTML/SVG widgets in native macOS windows |
@@ -119,7 +119,7 @@ cp extensions/pi-docs.ts ~/.pi/agent/extensions/pi-docs.ts
 cp reminders/read-fully.ts ~/.pi/agent/reminders/read-fully.ts
 
 # Install packages
-pi install git:github.com/Michaelliv/napkin
+pi install git:github.com/Michaelliv/pi-napkin
 pi install git:github.com/Michaelliv/pi-ask-user-question
 pi install git:github.com/Michaelliv/pi-charts
 pi install git:github.com/Michaelliv/pi-generative-ui
