@@ -119,7 +119,7 @@ cp extensions/pi-docs.ts ~/.pi/agent/extensions/pi-docs.ts
 cp reminders/read-fully.ts ~/.pi/agent/reminders/read-fully.ts
 
 # Install packages
-pi install git:github.com/Michaelliv/pi-napkin
+pi install npm:pi-napkin
 pi install git:github.com/Michaelliv/pi-ask-user-question
 pi install git:github.com/Michaelliv/pi-charts
 pi install git:github.com/Michaelliv/pi-generative-ui
