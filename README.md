@@ -8,7 +8,7 @@ My [pi](https://github.com/badlogic/pi) setup.
 ~/.pi/agent/
 ├── SYSTEM.md              # Custom system prompt
 ├── settings.json          # Model, packages, preferences
-├── napkin.json             # Global vault path for napkin extensions
+├── napkin.json            # Global vault path for napkin extensions
 ├── extensions/
 │   └── pi-docs.ts         # Injects date, cwd, and pi docs each turn
 ├── reminders/
@@ -17,12 +17,7 @@ My [pi](https://github.com/badlogic/pi) setup.
     ├── .napkin/           # Vault config
     │   └── config.json
     ├── NAPKIN.md          # Context note (Level 0)
-    ├── Templates/
-    │   ├── Decision.md
-    │   ├── Architecture.md
-    │   ├── Guide.md
-    │   ├── Changelog.md
-    │   └── Project.md
+    ├── Templates/         # Note templates
     ├── decisions/
     ├── architecture/
     ├── guides/
@@ -50,17 +45,40 @@ This keeps the system prompt lean while still giving the model access to pi docs
 
 ## Reminder: read-fully.ts
 
-Tracks consecutive search operations (`rg`, `grep`, etc.) in bash calls. Every 2 searches, injects a system reminder nudging the agent to read files fully instead of relying on snippets.
+Tracks consecutive search operations (`rg`, `grep`, etc.) in bash calls. Every 2 consecutive searches, injects a system reminder nudging the agent to read files fully instead of relying on snippets.
 
 ## Knowledge Base
 
-A [napkin](https://github.com/Michaelliv/napkin) vault at `~/.pi/agent/kb/` using the `coding` template. Provides structured knowledge storage with progressive disclosure.
+A [napkin](https://github.com/Michaelliv/napkin) vault at `~/.pi/agent/kb/` with automatic knowledge distillation.
 
-Includes a custom `projects/` directory and `Project` template on top of the default coding template (decisions, architecture, guides, changelog).
+### How it works
 
-Distillation is enabled — conversations are automatically distilled into the vault every 60 minutes using claude-sonnet-4-6.
+```
+Pi session (you + agent)
+        │
+        ├── napkin-context extension
+        │   Injects vault overview into the agent's context on session start.
+        │   The agent sees what's in the vault and can search/read it.
+        │
+        └── napkin-distill extension
+            Runs on a timer (every 60 min). Forks the conversation,
+            sends it to a cheap model (claude-sonnet-4-6), and distills
+            knowledge into the vault — decisions, architecture notes,
+            project context. /distill triggers it manually.
+```
 
-`napkin.json` tells napkin's pi extensions where the global vault is. Local project vaults (`.napkin/` in cwd) take priority when present.
+### Vault resolution
+
+Napkin's pi extensions resolve the vault in this order:
+
+1. **Local project vault** — walk up from cwd looking for `.napkin/`
+2. **Global fallback** — read `~/.pi/agent/napkin.json` for a default vault path
+
+This means project-specific vaults take priority when present, and the global `kb/` vault catches everything else.
+
+### Template
+
+Uses the `coding` template (decisions, architecture, guides, changelog) plus a custom `projects/` directory with a `Project` note template.
 
 ## Settings
 
@@ -75,7 +93,7 @@ Distillation is enabled — conversations are automatically distilled into the v
 
 | Package | Source | What it does |
 |---------|--------|-------------|
-| [napkin](https://github.com/Michaelliv/napkin) | git | Knowledge system for agents (Obsidian vault CLI) |
+| [napkin](https://github.com/Michaelliv/napkin) | git | Knowledge system — vault CLI, context injection, distillation |
 | [pi-ask-user-question](https://github.com/Michaelliv/pi-ask-user-question) | git | Interactive multi-choice question tool |
 | [pi-charts](https://github.com/Michaelliv/pi-charts) | git | Chart rendering (bar, line, pie, scatter, radar, etc.) |
 | [pi-generative-ui](https://github.com/Michaelliv/pi-generative-ui) | git | Interactive HTML/SVG widgets in native macOS windows |
@@ -90,10 +108,12 @@ Distillation is enabled — conversations are automatically distilled into the v
 npm i -g @mariozechner/pi-coding-agent
 npm i -g napkin-ai
 
-# Copy system prompt
-cp SYSTEM.md ~/.pi/agent/SYSTEM.md
+# Clone this repo
+git clone https://github.com/Michaelliv/dotpi.git
+cd dotpi
 
-# Copy extension and reminder
+# Copy system prompt, extension, and reminder
+cp SYSTEM.md ~/.pi/agent/SYSTEM.md
 mkdir -p ~/.pi/agent/extensions ~/.pi/agent/reminders
 cp extensions/pi-docs.ts ~/.pi/agent/extensions/pi-docs.ts
 cp reminders/read-fully.ts ~/.pi/agent/reminders/read-fully.ts
