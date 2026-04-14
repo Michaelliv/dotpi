@@ -10,8 +10,24 @@ My [pi](https://github.com/badlogic/pi) setup.
 ├── settings.json          # Model, packages, preferences
 ├── extensions/
 │   └── pi-docs.ts         # Injects date, cwd, and pi docs each turn
-└── reminders/
-    └── read-fully.ts      # Nudges to read files fully after search ops
+├── reminders/
+│   └── read-fully.ts      # Nudges to read files fully after search ops
+└── kb/                    # Knowledge base (napkin vault)
+    └── .napkin/           # Vault root
+        ├── NAPKIN.md
+        ├── config.json
+        ├── Templates/
+        │   ├── Decision.md
+        │   ├── Architecture.md
+        │   ├── Guide.md
+        │   ├── Changelog.md
+        │   └── Project.md
+        ├── decisions/
+        ├── architecture/
+        ├── guides/
+        ├── changelog/
+        ├── projects/
+        └── daily/
 ```
 
 ## System Prompt
@@ -34,6 +50,14 @@ This keeps the system prompt lean while still giving the model access to pi docs
 ## Reminder: read-fully.ts
 
 Tracks consecutive search operations (`rg`, `grep`, etc.) in bash calls. Every 2 searches, injects a system reminder nudging the agent to read files fully instead of relying on snippets.
+
+## Knowledge Base
+
+A [napkin](https://github.com/Michaelliv/napkin) vault at `~/.pi/agent/kb/` using the `coding` template. Provides structured knowledge storage with progressive disclosure.
+
+Includes a custom `projects/` directory and `Project` template on top of the default coding template (decisions, architecture, guides, changelog).
+
+Distillation is enabled — conversations are automatically distilled into the vault every 60 minutes using claude-sonnet-4-6.
 
 ## Settings
 
@@ -59,8 +83,9 @@ Tracks consecutive search operations (`rg`, `grep`, etc.) in bash calls. Every 2
 ## Install
 
 ```bash
-# Install pi
+# Install pi and napkin
 npm i -g @mariozechner/pi-coding-agent
+npm i -g napkin-ai
 
 # Copy system prompt
 cp SYSTEM.md ~/.pi/agent/SYSTEM.md
@@ -78,6 +103,13 @@ pi install git:github.com/Michaelliv/pi-generative-ui
 pi install git:github.com/Michaelliv/pi-universal-view
 pi install npm:pi-websearch-router
 pi install git:github.com/Michaelliv/pi-system-reminders
+
+# Set up knowledge base
+napkin init --path ~/.pi/agent/kb --template coding
+mkdir -p ~/.pi/agent/kb/.napkin/projects
+cp kb/.napkin/projects/_about.md ~/.pi/agent/kb/.napkin/projects/_about.md
+cp kb/.napkin/Templates/Project.md ~/.pi/agent/kb/.napkin/Templates/Project.md
+napkin --vault ~/.pi/agent/kb config set --key distill.enabled --value true
 ```
 
 ## License
