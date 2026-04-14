@@ -8,8 +8,10 @@ My [pi](https://github.com/badlogic/pi) setup.
 ~/.pi/agent/
 ├── SYSTEM.md              # Custom system prompt
 ├── settings.json          # Model, packages, preferences
-└── extensions/
-    └── pi-docs.ts         # Injects date, cwd, and pi docs each turn
+├── extensions/
+│   └── pi-docs.ts         # Injects date, cwd, and pi docs each turn
+└── reminders/
+    └── read-fully.ts      # Nudges to read files fully after search ops
 ```
 
 ## System Prompt
@@ -28,6 +30,10 @@ Injects a hidden message every turn via `before_agent_start` containing:
 - Pi documentation pointers (paths to docs, examples, and topic index)
 
 This keeps the system prompt lean while still giving the model access to pi docs when needed.
+
+## Reminder: read-fully.ts
+
+Tracks consecutive search operations (`rg`, `grep`, etc.) in bash calls. Every 2 searches, injects a system reminder nudging the agent to read files fully instead of relying on snippets.
 
 ## Settings
 
@@ -48,6 +54,7 @@ This keeps the system prompt lean while still giving the model access to pi docs
 | [pi-generative-ui](https://github.com/Michaelliv/pi-generative-ui) | git | Interactive HTML/SVG widgets in native macOS windows |
 | [pi-universal-view](https://github.com/Michaelliv/pi-universal-view) | git | Universal file viewer |
 | [pi-websearch-router](https://github.com/Michaelliv/pi-websearch) | npm | Web search with auto-detected provider |
+| [pi-system-reminders](https://github.com/Michaelliv/pi-system-reminders) | git | Reactive system reminders framework |
 
 ## Install
 
@@ -58,9 +65,10 @@ npm i -g @mariozechner/pi-coding-agent
 # Copy system prompt
 cp SYSTEM.md ~/.pi/agent/SYSTEM.md
 
-# Copy extension
-mkdir -p ~/.pi/agent/extensions
+# Copy extension and reminder
+mkdir -p ~/.pi/agent/extensions ~/.pi/agent/reminders
 cp extensions/pi-docs.ts ~/.pi/agent/extensions/pi-docs.ts
+cp reminders/read-fully.ts ~/.pi/agent/reminders/read-fully.ts
 
 # Install packages
 pi install ../../projects/napkin
@@ -69,6 +77,7 @@ pi install git:github.com/Michaelliv/pi-charts
 pi install git:github.com/Michaelliv/pi-generative-ui
 pi install git:github.com/Michaelliv/pi-universal-view
 pi install npm:pi-websearch-router
+pi install git:github.com/Michaelliv/pi-system-reminders
 ```
 
 ## License
