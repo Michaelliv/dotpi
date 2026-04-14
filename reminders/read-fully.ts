@@ -7,23 +7,40 @@ import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 const SEARCH_PATTERN = /\b(rg|grep|egrep|fgrep|zgrep|bzgrep|xzgrep|ag|ack|pt|sift|ucg)\b/;
 
 export default function (pi: ExtensionAPI) {
-	let searchCount = 0;
+	let consecutiveSearches = 0;
+	let shouldFire = false;
 
 	pi.on("tool_result", async (event) => {
+		let isSearch = false;
+
 		if (event.toolName === "bash") {
 			const cmd = (event.input as any)?.command ?? "";
-			if (SEARCH_PATTERN.test(cmd)) {
-				searchCount++;
-			}
+			isSearch = SEARCH_PATTERN.test(cmd);
 		}
 		if (event.toolName === "grep") {
-			searchCount++;
+			isSearch = true;
+		}
+
+		if (isSearch) {
+			consecutiveSearches++;
+			if (consecutiveSearches >= 2) {
+				shouldFire = true;
+				consecutiveSearches = 0;
+			}
+		} else {
+			consecutiveSearches = 0;
 		}
 	});
 
 	return {
 		on: "tool_execution_end",
-		when: () => searchCount >= 2 && searchCount % 2 === 0,
+		when: () => {
+			if (shouldFire) {
+				shouldFire = false;
+				return true;
+			}
+			return false;
+		},
 		message: "You've been searching with grep/rg. Search snippets lose context. Read the relevant files FULLY — start to finish — before drawing conclusions or making changes.",
 		cooldown: 1,
 	};
