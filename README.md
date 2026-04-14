@@ -13,21 +13,21 @@ My [pi](https://github.com/badlogic/pi) setup.
 ├── reminders/
 │   └── read-fully.ts      # Nudges to read files fully after search ops
 └── kb/                    # Knowledge base (napkin vault)
-    └── .napkin/           # Vault root
-        ├── NAPKIN.md
-        ├── config.json
-        ├── Templates/
-        │   ├── Decision.md
-        │   ├── Architecture.md
-        │   ├── Guide.md
-        │   ├── Changelog.md
-        │   └── Project.md
-        ├── decisions/
-        ├── architecture/
-        ├── guides/
-        ├── changelog/
-        ├── projects/
-        └── daily/
+    ├── .napkin/           # Vault config
+    │   └── config.json
+    ├── NAPKIN.md          # Context note (Level 0)
+    ├── Templates/
+    │   ├── Decision.md
+    │   ├── Architecture.md
+    │   ├── Guide.md
+    │   ├── Changelog.md
+    │   └── Project.md
+    ├── decisions/
+    ├── architecture/
+    ├── guides/
+    ├── changelog/
+    ├── projects/
+    └── daily/
 ```
 
 ## System Prompt
@@ -106,9 +106,9 @@ pi install git:github.com/Michaelliv/pi-system-reminders
 
 # Set up knowledge base
 napkin init --path ~/.pi/agent/kb --template coding
-mkdir -p ~/.pi/agent/kb/.napkin/projects
-cp kb/.napkin/projects/_about.md ~/.pi/agent/kb/.napkin/projects/_about.md
-cp kb/.napkin/Templates/Project.md ~/.pi/agent/kb/.napkin/Templates/Project.md
+mkdir -p ~/.pi/agent/kb/projects
+cp kb/projects/_about.md ~/.pi/agent/kb/projects/_about.md
+cp kb/Templates/Project.md ~/.pi/agent/kb/Templates/Project.md
 napkin --vault ~/.pi/agent/kb config set --key distill.enabled --value true
 ```
 
