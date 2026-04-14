@@ -8,6 +8,7 @@ My [pi](https://github.com/badlogic/pi) setup.
 ~/.pi/agent/
 ├── SYSTEM.md              # Custom system prompt
 ├── settings.json          # Model, packages, preferences
+├── napkin.json             # Global vault path for napkin extensions
 ├── extensions/
 │   └── pi-docs.ts         # Injects date, cwd, and pi docs each turn
 ├── reminders/
@@ -59,6 +60,8 @@ Includes a custom `projects/` directory and `Project` template on top of the def
 
 Distillation is enabled — conversations are automatically distilled into the vault every 60 minutes using claude-sonnet-4-6.
 
+`napkin.json` tells napkin's pi extensions where the global vault is. Local project vaults (`.napkin/` in cwd) take priority when present.
+
 ## Settings
 
 | Setting | Value |
@@ -105,6 +108,7 @@ pi install npm:pi-websearch-router
 pi install git:github.com/Michaelliv/pi-system-reminders
 
 # Set up knowledge base
+cp napkin.json ~/.pi/agent/napkin.json
 napkin init --path ~/.pi/agent/kb --template coding
 mkdir -p ~/.pi/agent/kb/projects
 cp kb/projects/_about.md ~/.pi/agent/kb/projects/_about.md
