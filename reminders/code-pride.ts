@@ -18,7 +18,7 @@ export default function (pi: ExtensionAPI) {
 	});
 
 	return {
-		on: "turn_end" as const,
+		on: "agent_end" as const,
 		when: () => {
 			if (wroteCode) {
 				wroteCode = false;
