@@ -41,7 +41,11 @@ export default function (pi: ExtensionAPI) {
 			}
 			return false;
 		},
-		message: "You've been searching with grep/rg. Search snippets lose context. Read the relevant files FULLY — start to finish — before drawing conclusions or making changes.",
+		message: "You've been using grep/search commands to read file contents. " +
+			"Grepping and searching is fine for *locating* files, but once you've found them, " +
+			"read the full files start to finish before writing code based on them. " +
+			"Partial reads (grep, head, offset/limit) miss imports, types, control flow, helpers, " +
+			"and the overall shape — all of which matter for writing correct code.",
 		cooldown: 1,
 	};
 }
