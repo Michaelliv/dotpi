@@ -17,7 +17,7 @@ export default function (pi: ExtensionAPI) {
 			const cmd = (event.input as any)?.command ?? "";
 			isSearch = SEARCH_PATTERN.test(cmd);
 		}
-		if (event.toolName === "grep") {
+		if (event.toolName === "grep" || event.toolName === "find" || event.toolName === "ls") {
 			isSearch = true;
 		}
 
