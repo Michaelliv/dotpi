@@ -1,6 +1,6 @@
 # dotpi
 
-My [pi](https://github.com/badlogic/pi) setup.
+My [pi](https://github.com/badlogic/pi-mono) setup.
 
 ## Structure
 
