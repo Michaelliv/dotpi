@@ -1,10 +1,14 @@
+import { homedir } from "node:os";
+import { join } from "node:path";
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 
+const PI_DOCS_DIR = join(homedir(), ".pi", "docs");
+
 const PI_DOCS = `Pi documentation (read only when the user asks about pi itself, its SDK, extensions, themes, skills, or TUI):
-- Main documentation: /Users/michael/.npm-global/lib/node_modules/@mariozechner/pi-coding-agent/README.md
-- Additional docs: /Users/michael/.npm-global/lib/node_modules/@mariozechner/pi-coding-agent/docs
-- Examples: /Users/michael/.npm-global/lib/node_modules/@mariozechner/pi-coding-agent/examples (extensions, custom tools, SDK)
-- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), pi packages (docs/packages.md)
+- Main documentation: ${PI_DOCS_DIR}/README.md
+- Additional docs: ${PI_DOCS_DIR}
+- Examples: ${PI_DOCS_DIR}/examples (extensions, custom tools, SDK)
+- When asked about: extensions (extensions.md, examples/extensions/), themes (themes.md), skills (skills.md), prompt templates (prompt-templates.md), TUI components (tui.md), keybindings (keybindings.md), SDK integrations (sdk.md), custom providers (custom-provider.md), adding models (models.md), pi packages (packages.md)
 - When working on pi topics, read the docs and examples, and follow .md cross-references before implementing
 - Always read pi .md files completely and follow links to related docs (e.g., tui.md for TUI API details)`;
 
